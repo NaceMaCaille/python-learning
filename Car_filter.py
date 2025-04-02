@@ -72,15 +72,15 @@ if filterr == "year car":                               # Условие отв�
     for c in cars:
         print(c)
 
-if filterr == "Corect car year":                        #
+if filterr == "Corect car year":                        # Отвечает за конкретный год авто
     sub_question2 = input("Enter ")
     correct_year_car = func_correct_year_car(cars,sub_question2)
     for car in correct_year_car:
         print(car)
 
-if filterr == "years and up":                           #
-    start = input("Enter start year ")                  #
-    end = input("Enter end year ")                      #
+if filterr == "years and up":                           # Условие отвечает за выбор от года до года
+    start = input("Enter start year ")                  # от какого года
+    end = input("Enter end year ")                      # до кокого года
     filtered_year = sorted([y for y in cars if start <= y["Year"] <= end], key=lambda y: y["Year"], reverse=True)
     for car in filtered_year:
         print(car)
