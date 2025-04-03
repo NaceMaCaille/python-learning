@@ -53,7 +53,7 @@ def func_correct_year_car(arrays,year):
 def func_car_name(arrays,name):
     return[array for array in arrays if array["Model"] == name]
 
-def custom_car(arrays,color=None,year=None,model=None):
+def custom_car(arrays=[10],color=[10],year=[10],model=[10]):
     def matches(search,value):
         return search is None or str(search).lower() in str(value).lower()
     return [
