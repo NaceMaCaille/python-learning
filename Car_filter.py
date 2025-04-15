@@ -53,7 +53,7 @@ def func_correct_year_car(arrays,year):
 def func_car_name(arrays,name):
     return[array for array in arrays if array["Model"] == name]
 
-def custom_car(arrays=[10],color=[10],year=[10],model=[10]):
+def create_car_list(arrays):
     def matches(search,value):
         return search is None or str(search).lower() in str(value).lower()
     return [
@@ -103,12 +103,76 @@ if filterr == "Custom car":
     model = input('Enter model ')
     color = input('Enter color ')
     year = input('Enter year ')
-    filtered_car = custom_car(cars,color,year,model)
+    filtered_car = create_car_list(cars,color,year,model)
     for car in filtered_car:
         print(car)
 
 
 
 
+import random
 
+cars = [
+    {"Model": "Toyota Camry"},
+    {"Model": "Honda Accord"},
+    {"Model": "Ford Mustang"},
+    {"Model": "Chevrolet Malibu"},
+    {"Model": "Nissan Altima"},
+    {"Model": "BMW 3 Series"},
+    {"Model": "Mercedes-Benz C-Class"},
+    {"Model": "Audi A4"},
+    {"Model": "Lexus RX"},
+    {"Model": "Volkswagen Golf"},
+    {"Model": "Subaru Outback"},
+    {"Model": "Mazda CX-5"},
+    {"Model": "Hyundai Elantra"},
+    {"Model": "Kia Sorento"},
+    {"Model": "Jeep Grand Cherokee"},
+    {"Model": "Dodge Charger"},
+    {"Model": "Tesla Model S"},
+    {"Model": "Chevrolet Tahoe"},
+    {"Model": "GMC Sierra"},
+    {"Model": "Ford Explorer"},
+    {"Model": "Honda CR-V"},
+    {"Model": "Toyota RAV4"},
+    {"Model": "Porsche 911"},
+    {"Model": "Jaguar XF"},
+    {"Model": "Volvo XC60"},
+    {"Model": "Mini Cooper"},
+    {"Model": "Fiat 500"},
+    {"Model": "Land Rover Defender"},
+    {"Model": "Chrysler 300"},
+    {"Model": "Buick Enclave"},
+    {"Model": "Lincoln Navigator"},
+    {"Model": "Cadillac Escalade"},
+    {"Model": "Acura MDX"},
+    {"Model": "Infiniti QX60"},
+    {"Model": "Alfa Romeo Giulia"},
+    {"Model": "Mitsubishi Outlander"},
+    {"Model": "Suzuki Swift"},
+    {"Model": "Peugeot 208"},
+    {"Model": "Renault Clio"},
+    {"Model": "Opel Astra"}
+]
 
+colors = [
+    {"Color": "Black"},
+    {"Color": "White"},
+    {"Color": "Silver"},
+    {"Color": "Gray"},
+    {"Color": "Red"},
+    {"Color": "Blue"},
+    {"Color": "Green"},
+    {"Color": "Yellow"},
+    {"Color": "Brown"},
+    {"Color": "Orange"},
+    {"Color": "Purple"}
+]
+
+years = [{"Year": year} for year in range(1990, 2026)]
+
+def test_func(model,color,year):
+    return model + color + year
+
+sum_func = test_func(cars[1:2],colors[1:2],years[:1])
+print(sum_func)
