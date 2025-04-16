@@ -9,3 +9,8 @@ def high_and_low_variant1(numbers):
     n = [int(elm) for elm in numbers.split(" ")]
     return f"{max(n)} {min(n)}"
 print(high_and_low_variant1("8 3 -5 42 -1 0 0 -9 4 7 4 -4"))
+
+def high_and_low_variant2(numbers):
+    n = sorted(numbers.split(" "), key=int)
+    return "{} {}".format(n[-1], n[0])
+print(high_and_low_variant2("8 3 -5 42 -1 0 0 -9 4 7 4 -4"))
