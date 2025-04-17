@@ -19,3 +19,7 @@ def high_and_low_variant3(numbers):
     n = list(map(int, numbers.split()))
     return "{} {}".format(max(n), min(n))
 print(high_and_low_variant3("8 3 -5 42 -1 0 0 -9 4 7 4 -4"))
+
+def high_and_low_variant4(numbers):
+    return f"{max(map(int, numbers.split()))} {min(map(int, numbers.split()))}"
+print(high_and_low_variant4("8 3 -5 42 -1 0 0 -9 4 7 4 -4"))
