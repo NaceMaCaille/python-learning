@@ -30,18 +30,24 @@ def get_middle_variant2(s):
         return s[y -1: y + 1]
     else:
         return s[y:y + 1]
+    
+#If the string length is odd, return the middle character.
 print(get_middle_variant2("chery"))
-
+#If the string length is even, it will return 2 middle characters.
 print(get_middle_variant2("pinapple"))
 
 def get_middle_variant3(s):
     y = (len(s) - 1) // 2
     return s[y: -y] or s
-print(get_middle_variant3("testing"))
 
+#If the string length is odd, return the middle character.
+print(get_middle_variant3("testing"))
+#If the string length is even, it will return 2 middle characters.
 print(get_middle_variant3("ice"))
 
 def get_middle_variant4(s):
     return s[(len(s) -1) // 2 : (len(s) + 2) // 2]
+#If the string length is odd, return the middle character.
 print(get_middle_variant4("Opera"))
+#If the string length is even, it will return 2 middle characters.
 print(get_middle_variant4("Google"))
