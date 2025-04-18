@@ -1,6 +1,6 @@
-def descending_order(num):
+def descending_order_variant0(num):
     return int("".join(sorted(str(num), reverse=True)))
-print(descending_order(124789214719))
+print(descending_order_variant0(124789214719))
 
 def descending_order_variant1(num):
     if num > 0:
