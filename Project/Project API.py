@@ -8,15 +8,17 @@ def CreateTodo(id, a, d):
 
 s = input()
 
-if "Create list":
+if "Створити нагадування":
+    saved_list = []
     num_of_reminders = input()
     for iteration in range(1,int(num_of_reminders)):
-        id = iteration
         action = input("Нагадування - ")
         date = input("Дата - ")
-        Get_list = print(CreateTodo(id,action,date))
-    Get_list1 = Get_list
-    
+        Get_list = CreateTodo(iteration,action,date)
+        saved_list.append(Get_list)
+        
+for l in saved_list:
+    print(l)
 
 
 
