@@ -14,10 +14,12 @@ def CreatrTodo(id, a, d):
 s = input()
 
 if "Get list":
-    id = input('Id')
-    action = input("Action")
-    date = input("Date")
-    Get_list = print(CreatrTodo(id,action,date))
+    num_of_reminders = input()
+    for iteration in range(1,int(num_of_reminders)):
+        id = iteration
+        action = input("Action - ")
+        date = input("Date - ")
+        Get_list = print(CreatrTodo(id,action,date))
 
 
 
