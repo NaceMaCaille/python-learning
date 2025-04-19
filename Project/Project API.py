@@ -13,7 +13,7 @@ def CreateTodo(id, a, d):
 
 s = input()
 
-if "Get list":
+if "Create list":
     num_of_reminders = input()
     for iteration in range(1,int(num_of_reminders)):
         id = iteration
