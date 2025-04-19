@@ -1,6 +1,3 @@
-#CreateTodo = {'id': 1, 'action': 'купити продукти ', 'date': '18.04.2025.23:52'} 
-#print(CreateTodo)
-
 def CreateTodo(id, a, d):
     return {
         'id': id,
@@ -8,8 +5,6 @@ def CreateTodo(id, a, d):
         'date':d
     }
 
-#Get_list = print(CreatrTodo(2,'посуд','19.04.2025')) 
-#Get_list = print(CreatrTodo(3,'покормити кота','19.04.2025.12:00'))
 
 s = input()
 
@@ -20,6 +15,7 @@ if "Create list":
         action = input("Нагадування - ")
         date = input("Дата - ")
         Get_list = print(CreateTodo(id,action,date))
+    Get_list1 = Get_list
     
 
 
