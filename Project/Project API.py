@@ -11,14 +11,14 @@ s = input()
 if "Створити нагадування":
     saved_list = []
     num_of_reminders = input()
-    for iteration in range(1,int(num_of_reminders)):
+    for iteration in range(1,int(num_of_reminders) + 1):
         action = input("Нагадування - ")
         date = input("Дата - ")
         Get_list = CreateTodo(iteration,action,date)
         saved_list.append(Get_list)
 
-for l in saved_list:
-    print(l)
+for s_l in saved_list:
+    print(s_l)
 
 s = input()
 
@@ -30,11 +30,11 @@ if "Редагувати нагадування":
             edit_date = input("Дата - ")
             l.update({'action':edit_action,'date':edit_date})
             break
-    else:
-        print("Такого id не існує")
+        else:
+            print("Такого id не існує")
 
-for r in saved_list:
-    print(r)
+for s_l in saved_list:
+    print(s_l)
 
 
 
