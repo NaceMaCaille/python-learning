@@ -24,7 +24,7 @@ def editTodo(id,action):
 def removeTodo(id):
     for todo in todo_list:
         if todo['id'] == id:
-            todo.clear()
+            todo_list.remove(todo)
 
 def getTodolist():
     return todo_list 
