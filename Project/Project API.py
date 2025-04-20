@@ -1,52 +1,42 @@
-def CreateTodo(id, a, d):
-    return {
-        'id': id,
-        'action':a,
-        'date':d
-    }
-    
+from datetime import datetime
+import pytz
 
-s = input()
+todo_list = []
+curent_id = 1
 
-if "Створити нагадування":
-    saved_list = []
-    num_of_reminders = input()
-    for iteration in range(1,int(num_of_reminders) + 1):
-        action = input("Нагадування - ")
-        date = input("Дата - ")
-        Get_list = CreateTodo(iteration,action,date)
-        saved_list.append(Get_list)
+def createTodo(action):
+    time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
+    hour = time_zone.hour
+    minute = time_zone.minute
+    date = time_zone.date
+    time = hour + minute + date
+    global curent_id
+    saved_list = {
+        'id': curent_id,
+        'action':action,
+        'date':time
+            }
+    todo_list.append(saved_list)
+    curent_id += 1
 
-for s_l in saved_list:
-    print(s_l)
-
-y = s
-
-if "Редагувати нагадування":
-    edit_id = int(input())
-    for l in saved_list:
-        if l['id'] == edit_id:
-            edit_action = input('Нагадування - ')
-            edit_date = input("Дата - ")
-            l.update({'action':edit_action,'date':edit_date})
-            break
-        else:
-            print("Такого id не існує")
-
-for s_l in saved_list:
-    print(s_l)
-
-if "Видалити нагадування":
-    enter_delete_list = input("Введіть")
-    for delete in saved_list:
-        if delete['id'] == enter_delete_list:
-            delete.clear()
+def editTodo(id,action):
+    for todo in todo_list:
+        if todo['id'] == id:
+            todo['action'] = action
             break
 
-for s_l in saved_list:
-    print(s_l)
+def removeTodo(id):
+    for todo in todo_list:
+        if todo['id'] == id:
+            todo.clear()
 
+def getTodolist():
+    return todo_list 
 
+createTodo('погладить кота')
+createTodo('приготувати їжу')
+editTodo(1,'погладить собаку')
+removeTodo(2)
 
-
-
+for listTodo in getTodolist():
+    print(listTodo)
