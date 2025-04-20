@@ -57,11 +57,3 @@ for listTodo in getTodolist():
 
 
 
-
-
-
-if option == "Створити нагадування":
-   action = input("Кількість нагадувань - ")
-   for it in range(1,int(action) + 1):
-        it = input("Нагадування - ")
-        createTodo(it)
