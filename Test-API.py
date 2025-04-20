@@ -16,13 +16,16 @@ def createTodo(action):
     todo_list.append(saved_list)
     curent_id += 1
 
-def editTodo(id,action):
+def editTodo():
+    id = int(input("Введіть ID нагадування для редагування - "))
+    action = input("Нове нагадування - ")
     for todo in todo_list:
         if todo['id'] == id:
             todo['action'] = action
             break
 
-def removeTodo(id):
+def removeTodo():
+    id = int(input("Введіть ID нагадування для редагування - "))
     for todo in todo_list:
         if todo['id'] == id:
             todo.clear()
@@ -34,25 +37,39 @@ def countTodo():
         createTodo(it)
 
 def getTodolist():
-    return todo_list 
+    for listTodo in todo_list:
+        print(listTodo)
+    
+    
 
 option = {
     '1':countTodo,
     '2':editTodo,
     '3':removeTodo,
+    '4':getTodolist,
+    '0':exit
 }
 
-select_option = input("Оберіть опцію - ")
+while True:
+    print("\nМеню ")
+    print("1 - Додати кілька нагадувань")
+    print("2 - Редагувати нагадування")
+    print("3 - Видалити нагадування")
+    print("4 - Показати всі нагадування")
+    print("0 - Вихід")
 
-command = option.get(select_option)
-if command:
-    command()
-else:
-    print("Erorr")
+
+    select_option = input("Оберіть опцію - ")
+
+    command = option.get(select_option)
+    if command:
+        command()
+    else:
+        print("Erorr")
+    
     
 
-for listTodo in getTodolist():
-    print(listTodo)
+
 
 
 
