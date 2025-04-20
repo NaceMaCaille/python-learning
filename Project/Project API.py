@@ -6,15 +6,11 @@ curent_id = 1
 
 def createTodo(action):
     time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
-    hour = time_zone.hour
-    minute = time_zone.minute
-    date = time_zone.date
-    time = hour + minute + date
     global curent_id
     saved_list = {
         'id': curent_id,
         'action':action,
-        'date':time
+        'date':time_zone
             }
     todo_list.append(saved_list)
     curent_id += 1
