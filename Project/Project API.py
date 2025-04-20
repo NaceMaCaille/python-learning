@@ -20,7 +20,7 @@ if "Створити нагадування":
 for s_l in saved_list:
     print(s_l)
 
-s = input()
+y = s
 
 if "Редагувати нагадування":
     edit_id = int(input())
@@ -32,6 +32,16 @@ if "Редагувати нагадування":
             break
         else:
             print("Такого id не існує")
+
+for s_l in saved_list:
+    print(s_l)
+
+if "Видалити нагадування":
+    enter_delete_list = input("Введіть")
+    for delete in saved_list:
+        if delete['id'] == enter_delete_list:
+            delete.clear()
+            break
 
 for s_l in saved_list:
     print(s_l)
