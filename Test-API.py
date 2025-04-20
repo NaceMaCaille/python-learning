@@ -27,14 +27,41 @@ def removeTodo(id):
         if todo['id'] == id:
             todo.clear()
 
+def countTodo():
+    action = int(input("Кількість нагадувань - "))
+    for _ in range(action):
+        it = input("Нагадування - ")
+        createTodo(it)
+
 def getTodolist():
     return todo_list 
 
-createTodo('погладить кота')
-createTodo('приготувати їжу')
-editTodo(1,'погладить собаку')
-removeTodo(2)
+option = {
+    '1':countTodo,
+    '2':editTodo,
+    '3':removeTodo,
+}
+
+select_option = input("Оберіть опцію - ")
+
+command = option.get(select_option)
+if command:
+    command()
+else:
+    print("Erorr")
+    
 
 for listTodo in getTodolist():
     print(listTodo)
 
+
+
+
+
+
+
+if option == "Створити нагадування":
+   action = input("Кількість нагадувань - ")
+   for it in range(1,int(action) + 1):
+        it = input("Нагадування - ")
+        createTodo(it)
