@@ -6,7 +6,7 @@ curent_id = 1
 
 def createTodo(action):
     time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
-    formated = time_zone.strftime("%d.%m.%Y %H:%M")
+    formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
     global curent_id
     
     saved_list = {
@@ -37,6 +37,18 @@ def countTodo():
         it = input("Нагадування - ")
         createTodo(it)
 
+
+def sortNameTodo():
+    sorted_name = sorted(todo_list, key=lambda name: name['action'])
+    for sort_list_todo in sorted_name:
+        print(sort_list_todo)
+
+def sortDateTodo():
+    sorted_date = sorted(todo_list, key=lambda date: date['date'],reverse=True)
+    for sort_list_todo in sorted_date:
+        print(sort_list_todo)
+
+
 def getTodolist():
     for listTodo in todo_list:
         print(listTodo)
@@ -46,7 +58,9 @@ option = {
     '1':countTodo,
     '2':editTodo,
     '3':removeTodo,
-    '4':getTodolist,
+    '4':sortNameTodo,
+    '5':sortDateTodo,
+    '6':getTodolist,
     '0':exit
 }
 
@@ -55,7 +69,9 @@ while True:
     print("1 - Додати кілька нагадувань")
     print("2 - Редагувати нагадування")
     print("3 - Видалити нагадування")
-    print("4 - Показати всі нагадування")
+    print("4 - Сортувати за назвою")
+    print("5 - Сортувати за датою")
+    print("6 - Показати всі нагадування")
     print("0 - Вихід")
 
 
