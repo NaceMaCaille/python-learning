@@ -6,12 +6,13 @@ curent_id = 1
 
 def createTodo(action):
     time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
+    formated = time_zone.strftime("%d.%m.%Y %H:%M")
     global curent_id
     
     saved_list = {
         'id': curent_id,
         'action':action,
-        'date':time_zone
+        'date':formated
             }
     todo_list.append(saved_list)
     curent_id += 1
@@ -25,7 +26,7 @@ def editTodo():
             break
 
 def removeTodo():
-    id = int(input("Введіть ID нагадування для редагування - "))
+    id = int(input("Введіть ID нагадування для видалення - "))
     for todo in todo_list:
         if todo['id'] == id:
             todo.clear()
@@ -41,7 +42,6 @@ def getTodolist():
         print(listTodo)
     
     
-
 option = {
     '1':countTodo,
     '2':editTodo,
