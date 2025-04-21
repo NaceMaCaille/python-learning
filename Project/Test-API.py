@@ -6,7 +6,7 @@ curent_id = 1
 
 def createTodo(action):
     time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
-    formated = time_zone.strftime("%d.%m.%Y %H:%M")
+    formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
     global curent_id
     
     saved_list = {
@@ -44,7 +44,7 @@ def sortNameTodo():
         print(sort_list_todo)
 
 def sortDateTodo():
-    sorted_date = sorted(todo_list, key=lambda date: date['date'])
+    sorted_date = sorted(todo_list, key=lambda date: date['date'],reverse=True)
     for sort_list_todo in sorted_date:
         print(sort_list_todo)
 
