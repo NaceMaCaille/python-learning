@@ -4,25 +4,29 @@ import pytz
 todo_list = []
 curent_id = 1
 
+time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
+formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
+
 def createTodo(action):
-    time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
-    formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
     global curent_id
     
     saved_list = {
         'id': curent_id,
         'action':action,
-        'date':formated
+        'date':formated,
+        'isComplete':False
             }
     todo_list.append(saved_list)
     curent_id += 1
 
 def editTodo():
     id = int(input("Введіть ID нагадування для редагування - "))
+    
     action = input("Нове нагадування - ")
     for todo in todo_list:
         if todo['id'] == id:
             todo['action'] = action
+            todo.update({'editDate': formated})
             break
 
 def removeTodo():
@@ -37,7 +41,20 @@ def countTodo():
         it = input("Нагадування - ")
         createTodo(it)
 
-
+def completeTodo():
+    id = int(input("Введіть ID нагадування для помітки - "))
+    for is_complete in todo_list:
+        if is_complete['id'] == id:
+            print("1 - Так виконав")
+            print("2 - Не виконав")
+            complete = int(input("Ви виконали це нагадування - "))
+        
+            if complete == 1:
+                is_complete.update({"isComplete":True})
+                
+            elif complete == 2:
+                break
+            
 def sortNameTodo():
     sorted_name = sorted(todo_list, key=lambda name: name['action'])
     for sort_list_todo in sorted_name:
@@ -60,7 +77,8 @@ option = {
     '3':removeTodo,
     '4':sortNameTodo,
     '5':sortDateTodo,
-    '6':getTodolist,
+    '6':completeTodo,
+    '7':getTodolist,
     '0':exit
 }
 
@@ -71,7 +89,8 @@ while True:
     print("3 - Видалити нагадування")
     print("4 - Сортувати за назвою")
     print("5 - Сортувати за датою")
-    print("6 - Показати всі нагадування")
+    print("6 - Помітити нагадування")
+    print("7 - Показати всі нагадування")
     print("0 - Вихід")
 
 
@@ -82,3 +101,4 @@ while True:
         command()
     else:
         print("Erorr")
+
