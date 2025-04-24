@@ -8,7 +8,7 @@ category =  ['спорт', 'навчання', 'покупки', 'робота',
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
 
-def createTodo(action, cat = None):
+def createTodo(action, cat):
     global curent_id
     
     saved_list = {
