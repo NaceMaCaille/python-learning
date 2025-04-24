@@ -3,11 +3,6 @@ import sqlite3 as sq
 with sq.connect("Testdb.db") as con:
     cur = con.cursor()
 
-    cur.execute("DROP TABLE IF EXISTS uesrs")
-    cur.execute(""" CREATE TABLE IF NOT EXISTS users(
-        user_id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL,
-        sex INTEGER NOT NULL DEFAULT 1,
-        old INTEGER,
-        score INTEGER
-        )""")
+    cur.execute("SELECT * FROM users WHERE score > 100 ORDER BY score DESC LIMIT 5")
+    result = cur.fetchall()
+    print(result)
