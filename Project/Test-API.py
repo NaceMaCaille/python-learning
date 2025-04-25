@@ -71,6 +71,7 @@ def chooseOption():
         else:
             print("Erorr")
     
+    
     option = {
     '1':countTodo_inteface,
     '2':editTodo_inteface,
@@ -82,8 +83,19 @@ def chooseOption():
     '0':exit
     }
 
-    
-    
+    print("1 - Створити нагадування")
+    print("0 - Завершити програму")
+    select_todo = input("Оберіть опцію - ")
+
+    option_interface = option.get(select_todo)
+
+    if option_interface:
+        option_interface()
+    else:
+        print("Erorr")
+
+
+
     while True:
         print("Меню")
         print("1 - Додати кілька нагадувань")
