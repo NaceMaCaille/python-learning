@@ -1,33 +1,28 @@
 import sqlite3 as sq
 
-cars = [ 
-    ('Audi', 52642), 
-    ('Mercedes', 57127), 
-    ('Skoda', 9000), 
-    ('Volvo', 29000), 
-    ('Bentley', 350000) 
-]
-con = None
+def readAva(n):
+    try:
+        with open(f"avas/{n}.png","rb") as f:
+            return f.read()
+    except IOError as e:
+        print(e)
+        return False
 
-try:
-    con = sq.connect("cars.db")
+
+    
+with sq.connect("cars.db") as con:
+    con.row_factory = sq.Row
     cur = con.cursor()
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS cars (
-        car_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        model TEXT,
-        price INTEGER
-    );""")
+    cur.execute("""CREATE TABLE IF NOT EXISTS users (
+        name TEXT,
+        ava BLOB,
+        score INTEGER
+    )""")
 
-    cur.executemany("INSERT INTO cars VALUES (NULL, ?, ?)", cars)
+    img = readAva(1)
+    if img:
+        binary = sq.Binary(img)
+        cur.execute("INSERT INTO users VALUES ('Николай',?,1000)", (binary,))
 
-    cur.execute("UPDATE cars SET price = price + 1000")
     
-    con.commit()
-
-except sq.Error as e:
-    if con: con.rollback()
-    print("Erorr")
-finally:
-    if con: con.close()
-
