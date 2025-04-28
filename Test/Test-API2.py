@@ -85,7 +85,7 @@ def removeTodo(id):
     conn.commit()
     return cursor.rowcount > 0
 
-def completeTodo(todo_list, id, complete):
+def completeTodo(id, complete):
     cursor.execute('''
     UPDATE todos
     SET is_complete = ?
