@@ -22,7 +22,7 @@ with sqlite3.connect("API Database.db") as con:
         """)
 
 
-curent_id = 1
+
 
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
@@ -39,7 +39,7 @@ def chooseOption():
 
         select_category = int(input("Оберіть категорію нагадувань - "))
 
-        success = create_todo(action, select_category)
+        success = countTodo(action,select_category)
 
         if success:
             print("Статус нагадування оновлено.")
@@ -136,70 +136,59 @@ def chooseOption():
             print("Erorr")
         
 
-def create_todo(todos, is_complete = 0):
-    global curent_id
-    try:
-        db = sqlite3.connect("API Database.db")
-        cur = db.cursor()
 
 
-        todo_data = [(action, formated, category, is_complete) for action, category in todos]
-        cur.execute("INSERT INTO todo(action,date,category,is_complete) VALUES(?,?,?,?)",todo_data)
-        db.commit()
-        curent_id += len(todos)
-    except Exception as e:
-        print("Erorr",e)
-    finally:
-        db.close()
+def create_todo(todos,cat,is_complete = 0):
+    todo_data = []
+    time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
+    formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
 
-
-def countTodo(action): # Count
-    it = int(input("Кількість нагадувань - "))
     
+    todo_data.append((todos, formated, cat, is_complete))
+    save_to_db('create',todo_data)
+
+
+def countTodo(count,category): # Count
     todos = []
-    for _ in range(it):
+    for _ in range(count):
         action = input("Нагадування - ")
         todos.append(action)
-        create_todo(todos)
+        create_todo(todos[-1],category)
 
-#def editTodo(id,action,select_cat): # Edit
-#    for todo in todo_list:
-#        if todo['id'] == id:
-#            todo['action'] = action
-#            todo.update({'editDate': formated})
-#            
-#            if 1 <= select_cat <= 5:
-#                todo.update({'category':category[select_cat - 1]})
-#                break
+def editTodo(id,action,select_cat): # Edit
+    pass
 
 def removeTodo(id): # Clear
-    for todo in todo_list:
-        if todo['id'] == id:
-            todo_list.remove(todo)
+    pass
 
 
 def completeTodo(todo_list,id,complete): # Complete todo
-   
-    for todo in todo_list:
-        if todo['id'] == id:
-            todo['isComplete'] = complete
-            return True
-        return False
+   pass
             
 def sortNameTodo(): # Sort 
-    sorted_name = sorted(todo_list, key=lambda name: name['action'])
-    for sort_list_todo in sorted_name:
-        print(sort_list_todo)
+    pass
 
 def sortDateTodo(): # Sort
-    sorted_date = sorted(todo_list, key=lambda date: date['date'],reverse=True)
-    for sort_list_todo in sorted_date:
-        print(sort_list_todo)
+    pass
 
 
 def getTodolist(): # Get
-    for listTodo in todo_list:
-        print(listTodo)
+    pass
+
+def save_to_db(method,object):
+    try:
+        sql_connection = sqlite3.connect("API Database.db")
+        cur = sql_connection.cursor()
+
+        if (method  == 'create'):
+            cur.executemany("INSERT INTO todo(action, date, category, is_complete) VALUES (?, ?, ?, ?)",object)
+            sql_connection.commit()
+    except ValueError:
+        print("erorr")
+    finally:
+        cur.close()
+        sql_connection.close()
+        
     
     
 chooseOption()
