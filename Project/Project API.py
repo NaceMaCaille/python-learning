@@ -74,13 +74,10 @@ def chooseOption():
             
         select_cat = int(input('Змініть категорію - '))
 
-        success_edit = editTodo(id,action,select_cat)
-        if success_edit:
-            print("Нагадування оновлено.")
-        else:
-            print("Нагадування з таким ID не знайдено.")
+        edit_todo(id,action,select_cat)
 
-    def removeTodo_inteface(): #Remove
+
+    def remove_todo_inteface(): #Remove
         id = int(input("Введіть ID нагадування для видалення - "))
 
         successRemove = removeTodo(id)
@@ -94,7 +91,7 @@ def chooseOption():
     option = {
     '1':countTodo_inteface,
     '2':editTodo_inteface,
-    '3':removeTodo_inteface,
+    '3':remove_todo_inteface,
     '4':sortNameTodo,
     '5':sortDateTodo,
     '6':completeTodo_inteface,
@@ -103,6 +100,8 @@ def chooseOption():
     }
 
     print("1 - Створити нагадування")
+    print("2 - Редагувати існуюче нагадування")
+    print("3 - Видалити нагадування")
     print("0 - Завершити програму")
     select_todo = input("Оберіть опцію - ")
 
@@ -155,11 +154,13 @@ def countTodo(count,category): # Count
         todos.append(action)
         create_todo(todos[-1],category)
 
-def editTodo(id,action,select_cat): # Edit
-    pass
+def edit_todo(id,action,select_cat): # Edit
+    todo = []
+    todo.append([id,action,select_cat])
+    save_to_db('edit',todo)
 
-def removeTodo(id): # Clear
-    pass
+def removeTodo(id): # Delete
+    save_to_db('delete',id)
 
 
 def completeTodo(todo_list,id,complete): # Complete todo
@@ -182,6 +183,18 @@ def save_to_db(method,object):
 
         if (method  == 'create'):
             cur.executemany("INSERT INTO todo(action, date, category, is_complete) VALUES (?, ?, ?, ?)",object)
+            sql_connection.commit()
+        if (method == 'edit'):
+            id, action, category = object[0]
+            cur.execute("SELECT * FROM todo WHERE id = ?",(id,))
+            if cur.fetchone() is None:
+                print("Not found id")
+            else:            
+                cur.execute("UPDATE todo SET action = ?,category = ?,edit_date = ? WHERE id = ?",(action,category,formated,id))
+                sql_connection.commit()
+        if (method == 'delete'):
+            id = object
+            cur.execute("DELETE FROM todo WHERE rowid = ?",(id,))
             sql_connection.commit()
     except ValueError:
         print("erorr")
