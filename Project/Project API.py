@@ -47,19 +47,13 @@ def chooseOption():
             print("Erorr")
 
     def completeTodo_inteface(): #Complete
-        todo_id = int(input("Введіть ID нагадування для помітки - "))
+        id = int(input("Введіть ID нагадування для помітки - "))
         print("1 - Так, виконав")
-        print("2 - Ні, не виконав")
+        print("0 - Ні, не виконав")
         choice = int(input("Ви виконали це нагадування - "))
 
-        completed = choice == 1
-
-        success = completeTodo(todo_list,todo_id,completed)
+        complete_todo(id,choice)
         
-        if success:
-            print("Статус нагадування оновлено.")
-        else:
-            print("Нагадування з таким ID не знайдено.")
         
     def editTodo_inteface(): #Edit
         id = int(input("Введіть ID для редагування - "))
@@ -79,22 +73,17 @@ def chooseOption():
 
     def remove_todo_inteface(): #Remove
         id = int(input("Введіть ID нагадування для видалення - "))
+        remove_todo(id)
 
-        successRemove = removeTodo(id)
-
-        if successRemove:
-            print("Нагадування видалено.")
-        else:
-            print("Erorr")
     
     
     option = {
     '1':countTodo_inteface,
     '2':editTodo_inteface,
     '3':remove_todo_inteface,
-    '4':sortNameTodo,
-    '5':sortDateTodo,
-    '6':completeTodo_inteface,
+    '4':completeTodo_inteface,
+    '5':sortNameTodo,
+    '6':sortDateTodo,
     '7':getTodolist,
     '0':exit
     }
@@ -102,6 +91,7 @@ def chooseOption():
     print("1 - Створити нагадування")
     print("2 - Редагувати існуюче нагадування")
     print("3 - Видалити нагадування")
+    print("4 - Помітити нагадування")
     print("0 - Завершити програму")
     select_todo = input("Оберіть опцію - ")
 
@@ -119,10 +109,10 @@ def chooseOption():
         print("1 - Додати кілька нагадувань")
         print("2 - Редагувати нагадування")
         print("3 - Видалити нагадування")
-        print("4 - Сортувати за назвою")
-        print("5 - Сортувати за датою")
-        print("6 - Помітити нагадування")
-        print("7 - Показати всі нагадування")
+        print("4 - Сортувати за назвою (В РОЗРОБЦІ)")
+        print("5 - Сортувати за датою (В РОЗРОБЦІ))")
+        print("6 - Помітити нагадування (В РОЗРОБЦІ)")
+        print("7 - Показати всі нагадування (В РОЗРОБЦІ)")
         print("0 - Вихід")
     
         select_option = input("Оберіть опцію - ")
@@ -159,12 +149,14 @@ def edit_todo(id,action,select_cat): # Edit
     todo.append([id,action,select_cat])
     save_to_db('edit',todo)
 
-def removeTodo(id): # Delete
+def remove_todo(id): # Delete
     save_to_db('delete',id)
 
 
-def completeTodo(todo_list,id,complete): # Complete todo
-   pass
+def complete_todo(id,complete): # Complete todo
+   todo = []
+   todo.append((id,complete))
+   save_to_db('complete',todo)
             
 def sortNameTodo(): # Sort 
     pass
@@ -194,7 +186,11 @@ def save_to_db(method,object):
                 sql_connection.commit()
         if (method == 'delete'):
             id = object
-            cur.execute("DELETE FROM todo WHERE rowid = ?",(id,))
+            cur.execute("DELETE FROM todo WHERE id = ?",(id,))
+            sql_connection.commit()
+        if (method == 'complete'):
+            id, complete = object[0]
+            cur.execute("UPDATE todo SET is_complete = ? WHERE id = ?",(complete,id))
             sql_connection.commit()
     except ValueError:
         print("erorr")
