@@ -20,17 +20,10 @@ with sqlite3.connect("API Database.db") as con:
         category INTEGER UNIQUE,
         is_complete INTEGER,
         edit_date INTEGER,
-        FOREIGN KEY (category) REFERENCES choice_category(id,name)
+        FOREIGN KEY (category) REFERENCES choice_category(id)
         );
         """)
-    cur.executemany("""
-    SELECT todo.id, todo.action, choice_category.name AS category_name
-    FROM todo
-    JOIN choice_category ON todo.category = choice_category.id;
-    """
-    )
     
-
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
 
