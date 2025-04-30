@@ -5,41 +5,36 @@ import sqlite3
 with sqlite3.connect("API Database.db") as con:
     cur = con.cursor()
 
-    cur.executescript("""
-        CREATE TABLE IF NOT EXISTS todo(  
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            action TEXT,
-            date INTEGER,
-            category TEXT,
-            is_complete INTEGER,
-            edit_date INTEGER,
-            FOREIGN KEY (category) REFERENCES categories(id)
-            );
-        CREATE TABLE IF NOT EXISTS choice_category(
-            id INTEGER PRIMARY KEY,
-            name TEXT          
-        )
-        """)
-    
-    cur.execute("""
-    UPDATE todo
-    SET category = (
-        SELECT choice_category.id
-        FROM choice_category
-        WHERE choice_category.name = todo.category
-    )
-    WHERE EXISTS (
-        SELECT 1
-        FROM choice_category
-        WHERE choice_category.name = todo.category
-    )
-    """)
+    cur.execute("PRAGMA foreign_keys = ON;")
 
+    cur.executescript("""
+        CREATE TABLE IF NOT EXISTS choice_category(
+        id INTEGER PRIMARY KEY,
+        name TEXT          
+        );
+
+        CREATE TABLE IF NOT EXISTS todo(  
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        action TEXT,
+        date INTEGER,
+        category INTEGER UNIQUE,
+        is_complete INTEGER,
+        edit_date INTEGER,
+        FOREIGN KEY (category) REFERENCES choice_category(id,name)
+        );
+        """)
+    cur.executemany("""
+    SELECT todo.id, todo.action, choice_category.name AS category_name
+    FROM todo
+    JOIN choice_category ON todo.category = choice_category.id;
+    """
+    )
+    
 
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
 
-def chooseOption():
+def choose_option():
     def countTodo_inteface():
         action = int(input("Кількість нагадувань - "))
 
@@ -212,6 +207,6 @@ def save_to_db(method,object):
         
     
     
-chooseOption()
+choose_option()
 
 
