@@ -15,13 +15,25 @@ with sqlite3.connect("API Database.db") as con:
             edit_date INTEGER,
             FOREIGN KEY (category) REFERENCES categories(id)
             );
-        CREATE TABLE IF NOT EXISTS category(
+        CREATE TABLE IF NOT EXISTS choice_category(
             id INTEGER PRIMARY KEY,
-            categories TEXT          
+            name TEXT          
         )
         """)
-
-
+    
+    cur.execute("""
+    UPDATE todo
+    SET category = (
+        SELECT choice_category.id
+        FROM choice_category
+        WHERE choice_category.name = todo.category
+    )
+    WHERE EXISTS (
+        SELECT 1
+        FROM choice_category
+        WHERE choice_category.name = todo.category
+    )
+    """)
 
 
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
@@ -109,9 +121,9 @@ def chooseOption():
         print("1 - Додати кілька нагадувань")
         print("2 - Редагувати нагадування")
         print("3 - Видалити нагадування")
-        print("4 - Сортувати за назвою (В РОЗРОБЦІ)")
-        print("5 - Сортувати за датою (В РОЗРОБЦІ))")
-        print("6 - Помітити нагадування (В РОЗРОБЦІ)")
+        print("4 - Помітити нагадування") 
+        print("5 - Сортувати за назвою (В РОЗРОБЦІ)")
+        print("6 - Сортувати за датою (В РОЗРОБЦІ))") 
         print("7 - Показати всі нагадування (В РОЗРОБЦІ)")
         print("0 - Вихід")
     
