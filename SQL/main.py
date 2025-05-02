@@ -1,28 +1,99 @@
-import sqlite3 as sq
+import sqlite3
 
-def readAva(n):
-    try:
-        with open(f"avas/{n}.png","rb") as f:
-            return f.read()
-    except IOError as e:
-        print(e)
-        return False
+with sqlite3.connect("cars.db") as sqlite_conection:
+    cur = sqlite_conection.cursor()
 
+    cur.executescript("""
+        CREATE TABLE IF NOT EXISTS cars(
+        cars TEXT,
+        color TEXT,
+        year_of_issue INTEGER,    
+        price INTEGER
+    )
+    """)
+
+model = {'1':'Toyota','2':'BMW','3':'Mercedes-Benz','4':'Tesla','5':'Volkswagen','6':'Honda','7':'Ford','8':'Hyundai','9':'Audi','10':'Kia'}
+color = {'1':'Білий','2':'Чорний','3':'Червоний','4':'Блакитний','5':'Сірий'}
+year = {'1':'2019','2':'2020','3':'2021','4':'2022','5':'2023'}
+model_price = {'BMW':'45000','Mercedes-Benz':'48000','Audi':'45000','Volkswagen':'28000','Ford':'26000','Hyundai':'22000','Kia':'22000','Toyota':'23000','Honda':'24000','Tesla':'39000'}
+year_price = {'2019':'1000','2020':'1100','2021':'1200','2022':'1300','2023':'1400'}
+
+def choice_custom_car():
+    def interface_model():
+        print("""
+        1 - Toyota
+        2 - BMW
+        3 - Mercedes-Benz
+        4 - Tesla
+        5 - Volkswagen
+        6 - Honda
+        7 - Ford
+        8 - Hyundai
+        9 - Audi
+        10 - Kia
+        """)
+        model = input('Оберіть модель авто - ')
+        
 
     
-with sq.connect("cars.db") as con:
-    con.row_factory = sq.Row
-    cur = con.cursor()
+        print("""
+        1 - Білий
+        2 - Чорний
+        3 - Червоний
+        4 - Блакитний
+        5 - Сірий
+        """)
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS users (
-        name TEXT,
-        ava BLOB,
-        score INTEGER
-    )""")
-
-    img = readAva(1)
-    if img:
-        binary = sq.Binary(img)
-        cur.execute("INSERT INTO users VALUES ('Николай',?,1000)", (binary,))
-
+        color = input('Оберіть колір авто -')
     
+
+   
+        print(""" 
+        1 - 2019
+        2 - 2020
+        3 - 2021
+        4 - 2022
+        5 - 2023
+        """)
+
+        year = input('Оберіть рік виробництва авто -')
+        select_model_car(model,color,year)
+
+    custom = {
+    '1':interface_model,
+    '0':exit
+    }
+
+    while True:
+        print('1 - Оберіть модель') 
+        print('0 - Вихід')
+
+        select = input('Оберіть опцію - ')
+        option = custom.get(select)
+
+        if option:
+            option()
+
+def select_model_car(select_model,select_color,select_year):
+    car_object = []
+    s_model = model.get(select_model)
+    car_object.append(s_model)
+
+    s_color = color.get(select_color)
+    car_object.append(s_color)
+   
+    s_year = year.get(select_year)
+    car_object.append(s_year)
+
+    price_model = model_price.get(s_model)     
+    car_object.append(price_model)    
+
+    save_to_db(car_object)
+
+def save_to_db(object):
+    model,color,year,price = object
+    cur.execute("INSERT INTO cars(cars, color, year_of_issue,price) VALUES(?,?,?,?)", (model,color,year,price))
+    sqlite_conection.commit()
+    cur.close()
+
+choice_custom_car()
