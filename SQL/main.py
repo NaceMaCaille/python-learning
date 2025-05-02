@@ -1,22 +1,39 @@
 import sqlite3
 
-with sqlite3.connect("cars.db") as sqlite_conection:
-    cur = sqlite_conection.cursor()
-
+def init_db():
+    connection = sqlite3.connect('./python-learning/SQL/cars.db')
+    cur = connection.cursor()
     cur.executescript("""
-        CREATE TABLE IF NOT EXISTS cars(
-        cars TEXT,
-        color TEXT,
-        year_of_issue INTEGER,    
-        price INTEGER
-    )
-    """)
+            CREATE TABLE IF NOT EXISTS cars(
+            model TEXT,
+            color TEXT,
+            year_of_issue INTEGER,    
+            price INTEGER
+        )
+        """)
+    
+init_db()
 
-model = {'1':'Toyota','2':'BMW','3':'Mercedes-Benz','4':'Tesla','5':'Volkswagen','6':'Honda','7':'Ford','8':'Hyundai','9':'Audi','10':'Kia'}
-color = {'1':'Білий','2':'Чорний','3':'Червоний','4':'Блакитний','5':'Сірий'}
-year = {'1':'2019','2':'2020','3':'2021','4':'2022','5':'2023'}
-model_price = {'BMW':'45000','Mercedes-Benz':'48000','Audi':'45000','Volkswagen':'28000','Ford':'26000','Hyundai':'22000','Kia':'22000','Toyota':'23000','Honda':'24000','Tesla':'39000'}
-year_price = {'2019':'1000','2020':'1100','2021':'1200','2022':'1300','2023':'1400'}
+models = {'1':'Toyota','2':'BMW','3':'Mercedes-Benz','4':'Tesla','5':'Volkswagen','6':'Honda','7':'Ford','8':'Hyundai','9':'Audi','10':'Kia'}
+colors = {'1':'Білий','2':'Чорний','3':'Червоний','4':'Блакитний','5':'Сірий'}
+years = {'1':'2019','2':'2020','3':'2021','4':'2022','5':'2023'}
+model_prices = {'BMW':'45000','Mercedes-Benz':'48000','Audi':'45000','Volkswagen':'28000','Ford':'26000','Hyundai':'22000','Kia':'22000','Toyota':'23000','Honda':'24000','Tesla':'39000'}
+year_prices = {'2019':'1000','2020':'1100','2021':'1200','2022':'1300','2023':'1400'}
+
+def get_cars():
+    connection = sqlite3.connect('./python-learning/SQL/cars.db')
+    cur = connection.cursor()
+
+    cur.execute('SELECT * FROM cars;')
+    cars = cur.fetchall()
+    for car in cars:
+        print(car)
+    if (len(cars) == 0):
+        print()
+        print('В таблиці поки немає машин.')
+        print()
+    connection.close()
+
 
 def choice_custom_car():
     def interface_model():
@@ -60,12 +77,14 @@ def choice_custom_car():
         select_model_car(model,color,year)
 
     custom = {
-    '1':interface_model,
-    '0':exit
+        '1':interface_model,
+        '2':get_cars,
+        '0':exit
     }
 
     while True:
         print('1 - Оберіть модель') 
+        print('2 - вивести всі авто з бази')
         print('0 - Вихід')
 
         select = input('Оберіть опцію - ')
@@ -76,17 +95,17 @@ def choice_custom_car():
 
 def select_model_car(select_model,select_color,select_year):
     car_object = []
-    s_model = model.get(select_model)
+    s_model = models.get(select_model)
     car_object.append(s_model)
 
-    s_color = color.get(select_color)
+    s_color = colors.get(select_color)
     car_object.append(s_color)
    
-    s_year = year.get(select_year)
+    s_year = years.get(select_year)
     car_object.append(s_year)
 
-    price_model = model_price.get(s_model)
-    price_year = year_price.get(s_year)
+    price_model = model_prices.get(s_model)
+    price_year = year_prices.get(s_year)
 
     price = str(int(price_model) + int(price_year))
     car_object.append(price)    
@@ -95,7 +114,7 @@ def select_model_car(select_model,select_color,select_year):
 
 def save_to_db(object):
     model,color,year,price = object
-    cur.execute("INSERT INTO cars(cars, color, year_of_issue,price) VALUES(?,?,?,?)", (model,color,year,price))
+    cur.execute("INSERT INTO cars(model, color, year_of_issue,price) VALUES(?,?,?,?)", (model,color,year,price))
     sqlite_conection.commit()
     cur.close()
 
