@@ -2,8 +2,8 @@ from datetime import datetime
 import pytz
 import sqlite3
 
-with sqlite3.connect("API Database.db") as con:
-    cur = con.cursor()
+with sqlite3.connect("API Database.db") as sql_connection:
+    cur = sql_connection.cursor()
 
     cur.execute("PRAGMA foreign_keys = ON;")
 
@@ -17,18 +17,30 @@ with sqlite3.connect("API Database.db") as con:
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         action TEXT,
         date INTEGER,
-        category INTEGER UNIQUE,
+        category TEXT UNIQUE,
         is_complete INTEGER,
         edit_date INTEGER,
         FOREIGN KEY (category) REFERENCES choice_category(id)
         );
         """)
-    
+    cur.execute("""
+    SELECT 
+    todo.id,
+    todo.action,
+    todo.date,
+    choice_category.name AS category,
+    todo.is_complete
+    FROM todo
+    JOIN choice_category ON todo.category = choice_category.id;
+    """)
+    sql_connection.commit()
+    cur.close()
+
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
 
 def choose_option():
-    def countTodo_inteface():
+    def countodo_inteface():
         action = int(input("Кількість нагадувань - "))
 
         print("1 - Cпорт")
@@ -37,16 +49,12 @@ def choose_option():
         print("4 - Робота")
         print("5 - Без категорії")
 
-        select_category = int(input("Оберіть категорію нагадувань - "))
+        category = int(input("Оберіть категорію нагадувань - "))
 
-        success = countTodo(action,select_category)
+        count_todo(action,category)
 
-        if success:
-            print("Статус нагадування оновлено.")
-        else:
-            print("Erorr")
 
-    def completeTodo_inteface(): #Complete
+    def completetodo_inteface(): #Complete
         id = int(input("Введіть ID нагадування для помітки - "))
         print("1 - Так, виконав")
         print("0 - Ні, не виконав")
@@ -55,10 +63,10 @@ def choose_option():
         complete_todo(id,choice)
         
         
-    def editTodo_inteface(): #Edit
+    def edit_todo_inteface(): #Edit
         id = int(input("Введіть ID для редагування - "))
 
-        action = input("Нове нагадування - ")
+        edit_action = input("Нове нагадування - ")
             
         print("1 - Cпорт")
         print("2 - Навчання")
@@ -66,9 +74,9 @@ def choose_option():
         print("4 - Робота")
         print("5 - Без категорії")
             
-        select_cat = int(input('Змініть категорію - '))
+        edit_cat = int(input('Змініть категорію - '))
 
-        edit_todo(id,action,select_cat)
+        edit_todo(id,edit_action,edit_cat)
 
 
     def remove_todo_inteface(): #Remove
@@ -78,10 +86,10 @@ def choose_option():
     
     
     option = {
-    '1':countTodo_inteface,
-    '2':editTodo_inteface,
+    '1':countodo_inteface,
+    '2':edit_todo_inteface,
     '3':remove_todo_inteface,
-    '4':completeTodo_inteface,
+    '4':completetodo_inteface,
     '5':sortNameTodo,
     '6':sortDateTodo,
     '7':getTodolist,
@@ -129,16 +137,17 @@ def choose_option():
 
 def create_todo(todos,cat,is_complete = 0):
     todo_data = []
+
     time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
     formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
 
-    
     todo_data.append((todos, formated, cat, is_complete))
     save_to_db('create',todo_data)
 
 
-def countTodo(count,category): # Count
+def count_todo(count,category): # Count
     todos = []
+
     for _ in range(count):
         action = input("Нагадування - ")
         todos.append(action)
@@ -176,6 +185,8 @@ def save_to_db(method,object):
         if (method  == 'create'):
             cur.executemany("INSERT INTO todo(action, date, category, is_complete) VALUES (?, ?, ?, ?)",object)
             sql_connection.commit()
+            cur.close()
+
         if (method == 'edit'):
             id, action, category = object[0]
             cur.execute("SELECT * FROM todo WHERE id = ?",(id,))
@@ -184,14 +195,20 @@ def save_to_db(method,object):
             else:            
                 cur.execute("UPDATE todo SET action = ?,category = ?,edit_date = ? WHERE id = ?",(action,category,formated,id))
                 sql_connection.commit()
+                cur.close()
+
         if (method == 'delete'):
             id = object
             cur.execute("DELETE FROM todo WHERE id = ?",(id,))
             sql_connection.commit()
+            cur.close()
+
         if (method == 'complete'):
             id, complete = object[0]
             cur.execute("UPDATE todo SET is_complete = ? WHERE id = ?",(complete,id))
             sql_connection.commit()
+            cur.close()
+            
     except ValueError:
         print("erorr")
     finally:
