@@ -17,22 +17,13 @@ with sqlite3.connect("API Database.db") as sql_connection:
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         action TEXT,
         date INTEGER,
-        category TEXT UNIQUE,
+        category TEXT,
         is_complete INTEGER,
         edit_date INTEGER,
-        FOREIGN KEY (category) REFERENCES choice_category(id)
+        FOREIGN KEY (category) REFERENCES choice_category(name)
         );
         """)
-    cur.execute("""
-    SELECT 
-    todo.id,
-    todo.action,
-    todo.date,
-    choice_category.name AS category,
-    todo.is_complete
-    FROM todo
-    JOIN choice_category ON todo.category = choice_category.id;
-    """)
+  
     sql_connection.commit()
     cur.close()
 
