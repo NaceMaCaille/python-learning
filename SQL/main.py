@@ -85,8 +85,11 @@ def select_model_car(select_model,select_color,select_year):
     s_year = year.get(select_year)
     car_object.append(s_year)
 
-    price_model = model_price.get(s_model)     
-    car_object.append(price_model)    
+    price_model = model_price.get(s_model)
+    price_year = year_price.get(s_year)
+
+    price = str(int(price_model) + int(price_year))
+    car_object.append(price)    
 
     save_to_db(car_object)
 
