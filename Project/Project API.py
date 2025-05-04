@@ -24,8 +24,8 @@ with sqlite3.connect("API Database.db") as sql_connection:
         );
     """)
   
-sql_connection.commit()
-cur.close()
+    sql_connection.commit()
+    cur.close()
 
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
