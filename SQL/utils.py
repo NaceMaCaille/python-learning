@@ -36,40 +36,17 @@ def save_to_db(object):
     cur.close()
 
 def interface_model():
-        print("""
-        1 - Toyota
-        2 - BMW
-        3 - Mercedes-Benz
-        4 - Tesla
-        5 - Volkswagen
-        6 - Honda
-        7 - Ford
-        8 - Hyundai
-        9 - Audi
-        10 - Kia
-        """)
-        model = input('Оберіть модель авто - ')
+    [print(num + ' -',model) for num,model in models]
+    model = input('Оберіть модель авто - ')
     
-        print("""
-        1 - Білий
-        2 - Чорний
-        3 - Червоний
-        4 - Блакитний
-        5 - Сірий
-        """)
+    [print(num + ' -',color) for num,color in colors]
 
-        color = input('Оберіть колір авто -')
+    color = input('Оберіть колір авто -')
    
-        print(""" 
-        1 - 2019
-        2 - 2020
-        3 - 2021
-        4 - 2022
-        5 - 2023
-        """)
+    [print(num + ' -',year) for num,year in years]
 
-        year = input('Оберіть рік виробництва авто -')
-        select_model_car(model,color,year)
+    year = input('Оберіть рік виробництва авто -')
+    select_model_car(model,color,year)
 
 def choice_custom_car():
     custom = {
