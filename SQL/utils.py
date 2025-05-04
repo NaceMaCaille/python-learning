@@ -2,7 +2,7 @@ import sqlite3
 from cars_data import models, colors, years, model_prices, year_prices
 
 def init_db():
-    connection = sqlite3.connect('cars.db')
+    connection = sqlite3.connect('SQL/cars.db')
     cur = connection.cursor()
     cur.executescript("""
             CREATE TABLE IF NOT EXISTS cars(
@@ -14,7 +14,7 @@ def init_db():
         """)
     
 def get_cars():
-    connection = sqlite3.connect('cars.db')
+    connection = sqlite3.connect('SQL/cars.db')
     cur = connection.cursor()
 
     cur.execute('SELECT * FROM cars;')
@@ -29,47 +29,34 @@ def get_cars():
 
 def save_to_db(object):
     model,color,year,price = object
-    connection = sqlite3.connect('cars.db')
+    connection = sqlite3.connect('SQL/cars.db')
     cur = connection.cursor()
     cur.execute("INSERT INTO cars(model, color, year_of_issue,price) VALUES(?,?,?,?)", (model,color,year,price))
     connection.commit()
     cur.close()
 
 def interface_model():
-        print("""
-        1 - Toyota
-        2 - BMW
-        3 - Mercedes-Benz
-        4 - Tesla
-        5 - Volkswagen
-        6 - Honda
-        7 - Ford
-        8 - Hyundai
-        9 - Audi
-        10 - Kia
-        """)
-        model = input('Оберіть модель авто - ')
+
+    [print(num + ' -',model) for num,model in models.items()]
+    model = input('Оберіть модель авто - ')
     
-        print("""
-        1 - Білий
-        2 - Чорний
-        3 - Червоний
-        4 - Блакитний
-        5 - Сірий
-        """)
+    [print(num + ' -',color) for num,color in colors.items()]
 
+<<<<<<< HEAD
         color = input('Оберіть колір авто - ')
+=======
+    color = input('Оберіть колір авто - ')
+>>>>>>> 82fed8d11c1bd838f9d252308ef9f26a29b665e3
    
-        print(""" 
-        1 - 2019
-        2 - 2020
-        3 - 2021
-        4 - 2022
-        5 - 2023
-        """)
+    [print(num + ' -',year) for num,year in years.items()]
 
+<<<<<<< HEAD
         year = input('Оберіть рік виробництва авто - ')
         select_model_car(model,color,year)
+=======
+    year = input('Оберіть рік виробництва авто - ')
+    select_model_car(model,color,year)
+>>>>>>> 82fed8d11c1bd838f9d252308ef9f26a29b665e3
 
 def choice_custom_car():
     custom = {
