@@ -2,30 +2,31 @@ from datetime import datetime
 import pytz
 import sqlite3
 
-with sqlite3.connect("API Database.db") as sql_connection:
-    cur = sql_connection.cursor()
+def init_db():
+    with sqlite3.connect("API Database.db") as sql_connection:
+        cur = sql_connection.cursor()
 
-    cur.execute("PRAGMA foreign_keys = ON;")
+        cur.execute("PRAGMA foreign_keys = ON;")
 
-    cur.executescript("""
-        CREATE TABLE IF NOT EXISTS choice_category(
-            id INTEGER PRIMARY KEY,
-            name TEXT          
-        );
+        cur.executescript("""
+            CREATE TABLE IF NOT EXISTS choice_category(
+                id INTEGER PRIMARY KEY,
+                name TEXT          
+            );
 
-        CREATE TABLE IF NOT EXISTS todo(  
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            action TEXT,
-            date INTEGER,
-            category TEXT,
-            is_complete INTEGER,
-            edit_date INTEGER,
-            FOREIGN KEY (category) REFERENCES choice_category(name)
-        );
-    """)
-  
-    sql_connection.commit()
-    cur.close()
+            CREATE TABLE IF NOT EXISTS todo(  
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                action TEXT,
+                date INTEGER,
+                category TEXT,
+                is_complete INTEGER,
+                edit_date INTEGER,
+                FOREIGN KEY (category) REFERENCES choice_category(name)
+            );
+        """)
+    
+        sql_connection.commit()
+        cur.close()
 
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
@@ -197,5 +198,3 @@ def save_to_db(method,object):
     finally:
         cur.close()
         sql_connection.close()
-    
-choose_option()
