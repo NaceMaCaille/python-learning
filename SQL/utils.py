@@ -42,21 +42,20 @@ def interface_model():
     
     [print(num + ' -',color) for num,color in colors.items()]
 
-<<<<<<< HEAD
-        color = input('Оберіть колір авто - ')
-=======
     color = input('Оберіть колір авто - ')
->>>>>>> 82fed8d11c1bd838f9d252308ef9f26a29b665e3
+
+    color = input('Оберіть колір авто - ')
+
    
     [print(num + ' -',year) for num,year in years.items()]
 
-<<<<<<< HEAD
-        year = input('Оберіть рік виробництва авто - ')
-        select_model_car(model,color,year)
-=======
+
     year = input('Оберіть рік виробництва авто - ')
     select_model_car(model,color,year)
->>>>>>> 82fed8d11c1bd838f9d252308ef9f26a29b665e3
+
+    year = input('Оберіть рік виробництва авто - ')
+    select_model_car(model,color,year)
+
 
 def choice_custom_car():
     custom = {
