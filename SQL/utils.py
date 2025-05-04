@@ -36,16 +36,16 @@ def save_to_db(object):
     cur.close()
 
 def interface_model():
-    [print(num + ' -',model) for num,model in models]
+    [print(num + ' -',model) for num, model in models.items()]
     model = input('Оберіть модель авто - ')
     
-    [print(num + ' -',color) for num,color in colors]
+    [print(num + ' -',color) for num,color in colors.items()]
 
     color = input('Оберіть колір авто -')
    
-    [print(num + ' -',year) for num,year in years]
+    [print(num + ' -',year) for num,year in years.items()]
 
-    year = input('Оберіть рік виробництва авто -')
+    year = input('Оберіть рік виробництва авто - ')
     select_model_car(model,color,year)
 
 def choice_custom_car():
@@ -84,3 +84,4 @@ def select_model_car(select_model,select_color,select_year):
     car_object.append(price)    
 
     save_to_db(car_object)
+
