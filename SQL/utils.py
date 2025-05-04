@@ -2,7 +2,7 @@ import sqlite3
 from cars_data import models, colors, years, model_prices, year_prices
 
 def init_db():
-    connection = sqlite3.connect('./python-learning/SQL/cars.db')
+    connection = sqlite3.connect('SQL/cars.db')
     cur = connection.cursor()
     cur.executescript("""
             CREATE TABLE IF NOT EXISTS cars(
@@ -14,7 +14,7 @@ def init_db():
         """)
     
 def get_cars():
-    connection = sqlite3.connect('./python-learning/SQL/cars.db')
+    connection = sqlite3.connect('SQL/cars.db')
     cur = connection.cursor()
 
     cur.execute('SELECT * FROM cars;')
@@ -29,7 +29,7 @@ def get_cars():
 
 def save_to_db(object):
     model,color,year,price = object
-    connection = sqlite3.connect('cars.db')
+    connection = sqlite3.connect('SQL/cars.db')
     cur = connection.cursor()
     cur.execute("INSERT INTO cars(model, color, year_of_issue,price) VALUES(?,?,?,?)", (model,color,year,price))
     connection.commit()
@@ -42,11 +42,11 @@ def interface_model():
     
     [print(num + ' -',color) for num,color in colors.items()]
 
-    color = input('Оберіть колір авто -')
+    color = input('Оберіть колір авто - ')
    
     [print(num + ' -',year) for num,year in years.items()]
 
-    year = input('Оберіть рік виробництва авто -')
+    year = input('Оберіть рік виробництва авто - ')
     select_model_car(model,color,year)
 
 def choice_custom_car():
