@@ -58,7 +58,7 @@ def interface_model():
         5 - Сірий
         """)
 
-        color = input('Оберіть колір авто -')
+        color = input('Оберіть колір авто - ')
    
         print(""" 
         1 - 2019
@@ -68,7 +68,7 @@ def interface_model():
         5 - 2023
         """)
 
-        year = input('Оберіть рік виробництва авто -')
+        year = input('Оберіть рік виробництва авто - ')
         select_model_car(model,color,year)
 
 def choice_custom_car():
