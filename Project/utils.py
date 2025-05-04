@@ -2,30 +2,31 @@ from datetime import datetime
 import pytz
 import sqlite3
 
-with sqlite3.connect("API Database.db") as sql_connection:
-    cur = sql_connection.cursor()
+def init_db():
+    with sqlite3.connect("API Database.db") as sql_connection:
+        cur = sql_connection.cursor()
 
-    cur.execute("PRAGMA foreign_keys = ON;")
+        cur.execute("PRAGMA foreign_keys = ON;")
 
-    cur.executescript("""
-        CREATE TABLE IF NOT EXISTS choice_category(
-        id INTEGER PRIMARY KEY,
-        name TEXT          
-        );
+        cur.executescript("""
+            CREATE TABLE IF NOT EXISTS choice_category(
+                id INTEGER PRIMARY KEY,
+                name TEXT          
+            );
 
-        CREATE TABLE IF NOT EXISTS todo(  
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        action TEXT,
-        date INTEGER,
-        category TEXT,
-        is_complete INTEGER,
-        edit_date INTEGER,
-        FOREIGN KEY (category) REFERENCES choice_category(name)
-        );
+            CREATE TABLE IF NOT EXISTS todo(  
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                action TEXT,
+                date INTEGER,
+                category TEXT,
+                is_complete INTEGER,
+                edit_date INTEGER,
+                FOREIGN KEY (category) REFERENCES choice_category(name)
+            );
         """)
-  
-    sql_connection.commit()
-    cur.close()
+    
+        sql_connection.commit()
+        cur.close()
 
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
@@ -45,7 +46,7 @@ def choose_option():
         count_todo(action,category)
 
 
-    def completetodo_inteface(): #Complete
+    def completetodo_inteface():
         id = int(input("Введіть ID нагадування для помітки - "))
         print("1 - Так, виконав")
         print("0 - Ні, не виконав")
@@ -54,7 +55,7 @@ def choose_option():
         complete_todo(id,choice)
         
         
-    def edit_todo_inteface(): #Edit
+    def edit_todo_inteface():
         id = int(input("Введіть ID для редагування - "))
 
         edit_action = input("Нове нагадування - ")
@@ -70,21 +71,21 @@ def choose_option():
         edit_todo(id,edit_action,edit_cat)
 
 
-    def remove_todo_inteface(): #Remove
+    def remove_todo_inteface():
         id = int(input("Введіть ID нагадування для видалення - "))
         remove_todo(id)
 
     
     
     option = {
-    '1':countodo_inteface,
-    '2':edit_todo_inteface,
-    '3':remove_todo_inteface,
-    '4':completetodo_inteface,
-    '5':sortNameTodo,
-    '6':sortDateTodo,
-    '7':getTodolist,
-    '0':exit
+        '1': countodo_inteface,
+        '2': edit_todo_inteface,
+        '3': remove_todo_inteface,
+        '4': completetodo_inteface,
+        '5': sortNameTodo,
+        '6': sortDateTodo,
+        '7': getTodolist,
+        '0': exit
     }
 
     print("1 - Створити нагадування")
@@ -99,9 +100,7 @@ def choose_option():
     if option_interface:
         option_interface()
     else:
-        print("Erorr")
-
-
+        print("Error")
 
     while True:
         print("Меню")
@@ -116,15 +115,11 @@ def choose_option():
     
         select_option = input("Оберіть опцію - ")
 
-
         command = option.get(select_option)
         if command:
             command()
         else:
-            print("Erorr")
-        
-
-
+            print("Error")
 
 def create_todo(todos,cat,is_complete = 0):
     todo_data = []
@@ -135,8 +130,7 @@ def create_todo(todos,cat,is_complete = 0):
     todo_data.append((todos, formated, cat, is_complete))
     save_to_db('create',todo_data)
 
-
-def count_todo(count,category): # Count
+def count_todo(count,category):
     todos = []
 
     for _ in range(count):
@@ -144,28 +138,27 @@ def count_todo(count,category): # Count
         todos.append(action)
         create_todo(todos[-1],category)
 
-def edit_todo(id,action,select_cat): # Edit
+def edit_todo(id,action,select_cat):
     todo = []
     todo.append([id,action,select_cat])
     save_to_db('edit',todo)
 
-def remove_todo(id): # Delete
+def remove_todo(id):
     save_to_db('delete',id)
 
 
-def complete_todo(id,complete): # Complete todo
+def complete_todo(id,complete):
    todo = []
    todo.append((id,complete))
    save_to_db('complete',todo)
             
-def sortNameTodo(): # Sort 
+def sortNameTodo(): 
     pass
 
-def sortDateTodo(): # Sort
+def sortDateTodo():
     pass
 
-
-def getTodolist(): # Get
+def getTodolist():
     pass
 
 def save_to_db(method,object):
@@ -201,13 +194,7 @@ def save_to_db(method,object):
             cur.close()
             
     except ValueError:
-        print("erorr")
+        print("Error")
     finally:
         cur.close()
         sql_connection.close()
-        
-    
-    
-choose_option()
-
-
