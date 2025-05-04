@@ -4,3 +4,4 @@ SQL/__pycache__/cars_data.cpython-313.pyc
 *.pyc
 *.py
 *.py
+/SQL
