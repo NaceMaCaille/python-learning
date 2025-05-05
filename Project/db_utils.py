@@ -11,10 +11,10 @@ def init_db():
         cur.executescript("""
             CREATE TABLE IF NOT EXISTS choice_category(
                 id INTEGER PRIMARY KEY,
-                name TEXT          
+                name TEXT
             );
 
-            CREATE TABLE IF NOT EXISTS todo(  
+            CREATE TABLE IF NOT EXISTS todo(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 action TEXT,
                 date INTEGER,
@@ -35,28 +35,28 @@ sql_connection = sqlite3.connect("API Database.db")
 cur = sql_connection.cursor()
 
 def create_todo_in_db(object):
-    cur.executemany("INSERT INTO todo(action, date, category, is_complete) VALUES (?, ?, ?, ?)",object)
+    cur.executemany("INSERT INTO todo(action, date, category, is_complete) VALUES (?, ?, ?, ?)", object)
     sql_connection.commit()
     cur.close()
 
 def edit_todo_in_db(object):
     id, action, category = object[0]
-    cur.execute("SELECT * FROM todo WHERE id = ?",(id,))
+    cur.execute("SELECT * FROM todo WHERE id = ?", (id))
     if cur.fetchone() is None:
         print("Not found id")
     else:            
-        cur.execute("UPDATE todo SET action = ?,category = ?,edit_date = ? WHERE id = ?",(action,category,formated,id))
+        cur.execute("UPDATE todo SET action = ?,category = ?,edit_date = ? WHERE id = ?", (action, category, formated, id))
     sql_connection.commit()
     cur.close()
 
 def delete_todo_in_db(object):
     id = object
-    cur.execute("DELETE FROM todo WHERE id = ?",(id,))
+    cur.execute("DELETE FROM todo WHERE id = ?", (id))
     sql_connection.commit()
     cur.close()
 
 def complete_todo_in_db(object):
     id, complete = object[0]
-    cur.execute("UPDATE todo SET is_complete = ? WHERE id = ?",(complete,id))
+    cur.execute("UPDATE todo SET is_complete = ? WHERE id = ?", (complete, id))
     sql_connection.commit()
     cur.close()
