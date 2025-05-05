@@ -5,7 +5,6 @@ from db_utils import create_todo_in_db,edit_todo_in_db,delete_todo_in_db,complet
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
 
-
 def create_todo(todos,cat,is_complete = 0):
     todo_data = []
 
@@ -31,13 +30,12 @@ def edit_todo(id,action,select_cat):
 def remove_todo(id):
     save_to_db('delete',id)
 
-
 def complete_todo(id,complete):
    todo = []
    todo.append((id,complete))
    save_to_db('complete',todo)
-            
-def sortNameTodo(): 
+
+def sortNameTodo():
     pass
 
 def sortDateTodo():
@@ -47,11 +45,11 @@ def getTodolist():
     pass
 
 def save_to_db(method, object):
-    if (method  == 'create'):
-        create_todo_in_db(object) 
-    if (method  == 'edit'):
-        edit_todo_in_db(object)   
-    if (method  == 'delete'):    
+    if (method == 'create'):
+        create_todo_in_db(object)
+    if (method == 'edit'):
+        edit_todo_in_db(object)
+    if (method == 'delete'):
         delete_todo_in_db(object)
-    if (method  == 'complete'):
+    if (method == 'complete'):
         complete_todo_in_db(object)

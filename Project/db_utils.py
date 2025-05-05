@@ -55,7 +55,6 @@ def delete_todo_in_db(object):
     sql_connection.commit()
     cur.close()
 
-
 def complete_todo_in_db(object):
     id, complete = object[0]
     cur.execute("UPDATE todo SET is_complete = ? WHERE id = ?",(complete,id))
