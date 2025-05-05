@@ -46,12 +46,12 @@ def sortDateTodo():
 def getTodolist():
     pass
 
-def save_to_db(method,object):
+def save_to_db(method, object):
     if (method  == 'create'):
-        create_todo_in_db(method,object) 
+        create_todo_in_db(object) 
     if (method  == 'edit'):
-        edit_todo_in_db(method,object)   
+        edit_todo_in_db(object)   
     if (method  == 'delete'):    
-        delete_todo_in_db(method,object)
+        delete_todo_in_db(object)
     if (method  == 'complete'):
-        complete_todo_in_db(method,object)
+        complete_todo_in_db(object)
