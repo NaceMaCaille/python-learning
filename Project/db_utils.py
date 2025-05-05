@@ -1,5 +1,6 @@
 import sqlite3
-from utils import formated
+import pytz
+from datetime import datetime
 
 def init_db():
     with sqlite3.connect("API Database.db") as sql_connection:
@@ -27,9 +28,12 @@ def init_db():
         sql_connection.commit()
         cur.close()
 
+time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
+formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
 
 sql_connection = sqlite3.connect("API Database.db")
 cur = sql_connection.cursor()
+
 def create_todo_in_db(method,object):
     if (method  == 'create'):
         cur.executemany("INSERT INTO todo(action, date, category, is_complete) VALUES (?, ?, ?, ?)",object)
@@ -57,7 +61,7 @@ def delete_todo_in_db(method,object):
 
 
 
-def create_todo_in_db(method,object):
+def complete_todo_in_db(method,object):
     id, complete = object[0]
     cur.execute("UPDATE todo SET is_complete = ? WHERE id = ?",(complete,id))
     sql_connection.commit()

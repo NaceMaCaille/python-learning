@@ -2,8 +2,6 @@ from datetime import datetime
 import pytz
 from db_utils import create_todo_in_db,edit_todo_in_db,delete_todo_in_db,complete_todo_in_db
 
-
-
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
 

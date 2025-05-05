@@ -1,4 +1,5 @@
-from utils import complete_todo,count_todo,edit_todo,remove_todo
+from utils import count_todo,complete_todo,edit_todo,remove_todo
+
 def choose_option():
     def countodo_inteface():
         action = int(input("Кількість нагадувань - "))
