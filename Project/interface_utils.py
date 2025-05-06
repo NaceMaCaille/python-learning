@@ -1,4 +1,4 @@
-from utils import count_todo,complete_todo,edit_todo,remove_todo
+from utils import count_todo,complete_todo,edit_todo,remove_todo,get_todo_list
 
 def choose_option():
     def countodo_inteface():
@@ -54,6 +54,7 @@ def choose_option():
 #        '5': sortNameTodo,
 #        '6': sortDateTodo,
 #        '7': getTodolist,
+        '8':get_todo_list,
         '0': exit
     }
 
@@ -62,6 +63,7 @@ def choose_option():
     print("3 - Видалити нагадування")
     print("4 - Помітити нагадування")
     print("0 - Завершити програму")
+    print('8 - Отримати існуючі нагадування')
     select_todo = input("Оберіть опцію - ")
 
     option_interface = option.get(select_todo)
