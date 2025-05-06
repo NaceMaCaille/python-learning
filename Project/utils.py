@@ -1,6 +1,6 @@
 from datetime import datetime
 import pytz
-from db_utils import create_todo_in_db,edit_todo_in_db,delete_todo_in_db,complete_todo_in_db
+from db_utils import create_todo_in_db,edit_todo_in_db,delete_todo_in_db,complete_todo_in_db,get_todo_list
 
 time_zone = datetime.now(pytz.timezone('Europe/Kyiv'))
 formated = time_zone.strftime("%d.%m.%Y %H:%M:%S")
@@ -43,8 +43,8 @@ def sortNameTodo():
 def sortDateTodo():
     pass
 
-def getTodolist():
-    pass
+
+    
 
 def save_to_db(method,object):
     if (method  == 'create'):
