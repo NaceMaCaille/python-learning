@@ -35,37 +35,31 @@ sql_connection = sqlite3.connect("API Database.db")
 cur = sql_connection.cursor()
 
 def create_todo_in_db(method,object):
-    if (method  == 'create'):
-        cur.executemany("INSERT INTO todo(action, date, category, is_complete) VALUES (?, ?, ?, ?)",object)
-        sql_connection.commit()
-        cur.close()
-
+    cur.executemany("INSERT INTO todo(action, date, category, is_complete) VALUES (?, ?, ?, ?)",object)
+    sql_connection.commit()
+        
 
 def edit_todo_in_db(method,object):
-    if (method == 'edit'):
-        id, action, category = object[0]
-        cur.execute("SELECT * FROM todo WHERE id = ?",(id,))
+    id, action, category = object[0]
+    cur.execute("SELECT * FROM todo WHERE id = ?",(id,))
     if cur.fetchone() is None:
         print("Not found id")
     else:            
         cur.execute("UPDATE todo SET action = ?,category = ?,edit_date = ? WHERE id = ?",(action,category,formated,id))
     sql_connection.commit()
-    cur.close()
-
+    
 
 def delete_todo_in_db(method,object):
     id = object
     cur.execute("DELETE FROM todo WHERE id = ?",(id,))
     sql_connection.commit()
-    cur.close()
-
 
 
 def complete_todo_in_db(method,object):
     id, complete = object[0]
     cur.execute("UPDATE todo SET is_complete = ? WHERE id = ?",(complete,id))
     sql_connection.commit()
-    cur.close()
+    
     
 
 def get_todo_list():
@@ -73,7 +67,22 @@ def get_todo_list():
     todos = cur.fetchall()
     [print(todo) for todo in todos]
     sql_connection.commit()
-    cur.close()
-
-
-
+    
+def sort_name_todo(type):
+    if (type == '1'):
+        cur.execute("SELECT * FROM todo ORDER BY action ASC")
+    if (type == '2'):
+        cur.execute("SELECT * FROM todo ORDER BY action DESC")
+    todos_sort_name = cur.fetchall()
+    [print(todo) for todo in todos_sort_name]
+    sql_connection.commit()
+    
+def sort_date_todo(type):
+    if (type == '1'):
+        cur.execute("SELECT * FROM todo ORDER BY date ASC")
+    if (type == '2'):
+        cur.execute("SELECT * FROM todo ORDER BY date DESC")
+    todos_sort_date = cur.fetchall()
+    [print(todo) for todo in todos_sort_date]
+    sql_connection.commit()
+    

@@ -1,4 +1,6 @@
-from utils import count_todo,complete_todo,edit_todo,remove_todo,get_todo_list
+from utils import count_todo,complete_todo,edit_todo,remove_todo
+
+from db_utils import sort_date_todo,sort_name_todo,get_todo_list
 
 def choose_option():
     def countodo_inteface():
@@ -44,6 +46,17 @@ def choose_option():
         id = int(input("Введіть ID нагадування для видалення - "))
         remove_todo(id)
 
+    def sort_date_interface():
+        print("1 - За зростанням")
+        print("2 - За спаданням")
+        type = input("Оберіть тип сорутування - ")
+        sort_date_todo(type)
+    
+    def sort_name_interface():
+        print("1 - За зростанням")
+        print("2 - За спаданням")
+        type = input("Оберіть тип сорутування - ")
+        sort_name_todo(type)
     
     
     option = {
@@ -51,10 +64,9 @@ def choose_option():
         '2': edit_todo_inteface,
         '3': remove_todo_inteface,
         '4': completetodo_inteface,
-#        '5': sortNameTodo,
-#        '6': sortDateTodo,
-#        '7': getTodolist,
-        '8':get_todo_list,
+        '5': sort_name_interface,
+        '6': sort_date_interface,
+        '7': get_todo_list,
         '0': exit
     }
 
@@ -62,8 +74,8 @@ def choose_option():
     print("2 - Редагувати існуюче нагадування")
     print("3 - Видалити нагадування")
     print("4 - Помітити нагадування")
+    print('7 - Отримати існуючі нагадування')
     print("0 - Завершити програму")
-    print('8 - Отримати існуючі нагадування')
     select_todo = input("Оберіть опцію - ")
 
     option_interface = option.get(select_todo)
@@ -79,9 +91,9 @@ def choose_option():
         print("2 - Редагувати нагадування")
         print("3 - Видалити нагадування")
         print("4 - Помітити нагадування") 
-        print("5 - Сортувати за назвою (В РОЗРОБЦІ)")
-        print("6 - Сортувати за датою (В РОЗРОБЦІ))") 
-        print("7 - Показати всі нагадування (В РОЗРОБЦІ)")
+        print("5 - Сортувати за назвою")
+        print("6 - Сортувати за датою") 
+        print("7 - Показати всі нагадування")
         print("0 - Вихід")
     
         select_option = input("Оберіть опцію - ")
