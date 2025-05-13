@@ -7,7 +7,7 @@ class Human:
         return f"{self.name}, {self.age} років"
     
     
-class Car(Human):
+class Car:
     def __init__(self,brand,model,year_creating,number_plate):
         self.brand = brand
         self.model = model
@@ -17,13 +17,16 @@ class Car(Human):
     
     def set_owner(self, owner):
         self.owner = owner
-        
+            
     def __str__(self):
         owner_info = self.owner
-        return f"Бренд - {self.brand}, Модель - {self.model},Рік створення - {self.year_creating}, Номерний знак - {self.number_plate}\nВласник - {owner_info}"
+        if self.owner.age < 18:
+            return "Власником авто може стати людина яка досягла повнолітньго віку"
+        else:
+            return f"Бренд - {self.brand}, Модель - {self.model},Рік створення - {self.year_creating}, Номерний знак - {self.number_plate}\nВласник - {owner_info}"
 
 
-person = Human("Albert", 20)
+person = Human("Albert", 18)
 car = Car('Bugati','Bolide',2020,'CB 0001 AA')
 car.set_owner(person)
 
