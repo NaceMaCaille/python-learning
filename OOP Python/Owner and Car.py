@@ -15,18 +15,23 @@ class Car:
         self.number_plate = number_plate
         self.owner = None
     
+    
     def set_owner(self, owner):
         self.owner = owner
-            
-    def __str__(self):
-        owner_info = self.owner
-        if self.owner.age < 18:
-            return "Власником авто може стати людина яка досягла повнолітньго віку"
+        
+    def get_info(self):    
+        if self.owner.age >= 18:
+            return f"Бренд - {self.brand}, Модель - {self.model},Рік створення - {self.year_creating}, Номерний знак - {self.number_plate}\nВласник - {self.owner.name} {self.owner.age}"
         else:
-            return f"Бренд - {self.brand}, Модель - {self.model},Рік створення - {self.year_creating}, Номерний знак - {self.number_plate}\nВласник - {owner_info}"
+            return "Власник неповнолітній"
+    
+    def __repr__(self):
+        return self.get_info()
 
+name = input("І'мя власника - ")
+age = int(input("Рік народження - "))
 
-person = Human("Albert", 18)
+person = Human(name, age)
 car = Car('Bugati','Bolide',2020,'CB 0001 AA')
 car.set_owner(person)
 
