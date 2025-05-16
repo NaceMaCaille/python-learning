@@ -3,6 +3,7 @@ class Human:
         self.name = name
         self.age = age
         
+
     def __str__(self):
         return f"{self.name}, {self.age} років"
     
@@ -17,21 +18,30 @@ class Car:
     
     
     def set_owner(self, owner):
-        self.owner = owner
-        
-    def get_info(self):    
-        if self.owner.age >= 18:
-            return f"Бренд - {self.brand}, Модель - {self.model},Рік створення - {self.year_creating}, Номерний знак - {self.number_plate}\nВласник - {self.owner.name} {self.owner.age}"
+        if owner.age >= 18:
+            self.owner = owner
         else:
-            return "Власник неповнолітній"
-    
+            owner = None
+            
+         
+    def get_info(self):
+        owner_info = (
+            f"Власник - {self.owner.name} {self.owner.age} років"
+            if self.owner
+            else "Помилка! Власник неповнолітній"
+        )
+        return (
+            f"Бренд - {self.brand}, Модель - {self.model},"
+            f"Рік створення - {self.year_creating}, Номерний знак - {self.number_plate}"
+            f"\n{owner_info}"
+            )
+        
+            
     def __repr__(self):
         return self.get_info()
 
-name = input("І'мя власника - ")
-age = int(input("Рік народження - "))
 
-person = Human(name, age)
+person = Human('Albert', 18)
 car = Car('Bugati','Bolide',2020,'CB 0001 AA')
 car.set_owner(person)
 
