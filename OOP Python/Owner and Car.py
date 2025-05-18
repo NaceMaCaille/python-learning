@@ -18,31 +18,28 @@ class Car:
     
     
     def set_owner(self, owner):
-        if owner.age >= 18:
+        if owner.age > 18:
             self.owner = owner
         else:
-            owner = None
-            
+            raise ValueError('Помилка! Власник неповнолітній')
+
          
     def get_info(self):
-        owner_info = (
-            f"Власник - {self.owner.name} {self.owner.age} років"
-            if self.owner
-            else "Помилка! Власник неповнолітній"
-        )
         return (
             f"Бренд - {self.brand}, Модель - {self.model},"
             f"Рік створення - {self.year_creating}, Номерний знак - {self.number_plate}"
-            f"\n{owner_info}"
+            f"\n{self.owner.name} {self.owner.age}"
             )
         
             
     def __repr__(self):
         return self.get_info()
+    
+try:
+    person = Human('Albert', 17)
+    car = Car('Bugati','Bolide',2020,'CB 0001 AA')
+    car.set_owner(person)
 
-
-person = Human('Albert', 18)
-car = Car('Bugati','Bolide',2020,'CB 0001 AA')
-car.set_owner(person)
-
-print(car)
+    print(car)
+except ValueError as e:
+    print(e)
