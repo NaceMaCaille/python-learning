@@ -24,7 +24,7 @@ class Car:
             raise ValueError('Помилка! Власник неповнолітній')
 
          
-    def get_info(self):
+    async def get_info(self):
         return (
             f"Бренд - {self.brand}, Модель - {self.model},"
             f"Рік створення - {self.year_creating}, Номерний знак - {self.number_plate}"
