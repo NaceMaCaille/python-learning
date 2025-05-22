@@ -19,12 +19,29 @@ class Human:
 
 
 class Student(Human):
-    pass
+    def __init__(self, name, surname, age, marks):
+        super().__init__(name, surname, age)
+        
+        self.marks = marks
+        
+    def get_average_mark(self):
+        return f"Середня оцінка - {sum(self.marks) // len(self.marks)}"
+    
+    
+    def get_min_mark(self):    
+        return f"Мінімальна оцінка - {min(self.marks)}" 
+    
+    
+    def get_max_mark(self):    
+        return f"Максимальна оцінка - {max(self.marks)}"
+    
+    
+    def __repr__(self):
+        return f"{super().__repr__()} {self.get_average_mark()}"
+          
+    
+male_student = Student("Іван", "Петренко", 30,[10,9,8,1,10])    
+print(male_student.get_average_mark())
 
-person = Human("Іван", "Петренко", 30)    
 
-print(person)
 
-person.set_full_name("Олена Шевченко")
-
-print(person)
