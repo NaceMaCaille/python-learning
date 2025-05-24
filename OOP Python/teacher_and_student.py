@@ -68,11 +68,33 @@ class Teacher:
                 return self.students.append(replace_student)
         return None
 
+
+class FakeStudent(Student):
+    def __init__(self, name, surname, age, marks):
+        super().__init__(name, surname, age, marks)
+
+        self.marks = marks
+
+    def cheated_marks(self):
+        pass
+
+    def cheat(self):
+        for mark in self.marks:
+            doubled = mark * 2
+            if doubled > 10:
+                self.marks.append(10)
+            else:
+                self.marks.append(doubled)
+        return self.marks
+
+
 ivan = Student("Іван", "Петренко", 24,[4, 8, 3, 2, 1])
 albert = Student("Альберт", "Мішустін", 25, [5, 10, 11, 3, 1])
 irina = Student("Ірина", "Шевченко", 21, [10, 1, 4, 1, 7])
 daria = Student("Дар'я", "Коваленко", 23, [1, 10, 1, 3, 6])
 oleg = Student("Олег", "Кравчук", 22, [10, 2, 1, 4, 3])
+
+cheater_student = FakeStudent("Антон","Коваль", 22, [5, 2, 3, 4, 6])
 
 
 
@@ -86,12 +108,5 @@ print(
      ivan.get_average_mark()
    )
 
-print(teacher.get_list_of_names_by_average_mark())
-
-print(teacher.get_student_by_name('Іван'))
-
-teacher.remove_student_by_name("Дар'я")
-print((teacher.get_list_of_names_by_average_mark()))
-
-teacher.update_student_by_name(oleg, 'Альберт')
-print((teacher.get_list_of_names_by_average_mark()))
+print(cheater_student.cheat())
+print(cheater_student.marks)
