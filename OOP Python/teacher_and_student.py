@@ -48,22 +48,37 @@ class Teacher:
 
 
     def get_student_by_name(self, name):
-        pass
+        for student in self.students:
+            if student.name == name:
+                return student
+        return None
 
 
     def remove_student_by_name(self, name):
-        pass
+        for student in self.students:
+            if student.name == name:
+                return self.students.remove(student)
+        return None
 
+
+    def update_student_by_name(self, replace_student, name):
+        for student in self.students:
+            if student.name == name:
+                self.students.remove(student)
+                return self.students.append(replace_student)
+        return None
 
 ivan = Student("Іван", "Петренко", 24,[4, 8, 3, 2, 1])
 albert = Student("Альберт", "Мішустін", 25, [5, 10, 11, 3, 1])
 irina = Student("Ірина", "Шевченко", 21, [10, 1, 4, 1, 7])
 daria = Student("Дар'я", "Коваленко", 23, [1, 10, 1, 3, 6])
+oleg = Student("Олег", "Кравчук", 22, [10, 2, 1, 4, 3])
+
+
 
 student_group = [ivan, albert, irina, daria]
 
-lidia = Teacher(student_group)
-print(lidia.get_list_of_names_by_average_mark())
+teacher = Teacher(student_group)
 
 print(
      f"Студент {ivan.get_full_name()}",
@@ -71,6 +86,12 @@ print(
      ivan.get_average_mark()
    )
 
+print(teacher.get_list_of_names_by_average_mark())
 
+print(teacher.get_student_by_name('Іван'))
 
+teacher.remove_student_by_name("Дар'я")
+print((teacher.get_list_of_names_by_average_mark()))
 
+teacher.update_student_by_name(oleg, 'Альберт')
+print((teacher.get_list_of_names_by_average_mark()))
