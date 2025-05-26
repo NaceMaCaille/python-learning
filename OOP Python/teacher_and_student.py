@@ -69,20 +69,35 @@ class Teacher:
         return None
 
 
+    def find_cheater_student(self):
+        for student in self.students:
+            avg_real = sum(student.marks) // len(student.marks)
+            avg_curent = student.get_average_mark()
+            if avg_curent != avg_real:
+                return f"{student.get_full_name()}"
+        return None
+
+
 class FakeStudent(Student):
-    def __init__(self, name, surname, age, __cheated_marks, marks = None):
+    def __init__(self, name, surname, age, marks):
         super().__init__(name, surname, age, marks)
 
-        self.__cheated_marks = __cheated_marks
+        self.__cheated_marks = self.cheat()
 
     def cheat(self):
-        for mark in self.__cheated_marks:
-            doubled = mark * 2
-            if doubled > 10:
-                self.__cheated_marks.append(10)
-            else:
-                self.__cheated_marks.append(doubled)
-        return self.__cheated_marks
+        return [min(mark * 2, 10) for mark in self.marks]
+
+
+    def get_average_mark(self):
+        return sum(self.__cheated_marks) // len(self.__cheated_marks)
+
+
+    def get_min_mark(self):
+        return min(self.__cheated_marks)
+
+
+    def get_max_mark(self):
+        return max(self.__cheated_marks)
 
 
 ivan = Student("Іван", "Петренко", 24,[4, 8, 3, 2, 1])
@@ -91,20 +106,27 @@ irina = Student("Ірина", "Шевченко", 21, [10, 1, 4, 1, 7])
 daria = Student("Дар'я", "Коваленко", 23, [1, 10, 1, 3, 6])
 oleg = Student("Олег", "Кравчук", 22, [10, 2, 1, 4, 3])
 
-cheater = FakeStudent("Антон","Коваль", 22, [5, 2, 3, 4, 6], [0])
+anton = FakeStudent("Антон","Коваль", 22, [5, 2, 3, 4, 6])
 
 
 
-student_group = [ivan, albert, irina, daria]
+student_group = [ivan, albert, irina, daria, anton]
 
 teacher = Teacher(student_group)
+
+print(anton.cheat())
 
 print(
      f"Студент {ivan.get_full_name()}",
      "має середню оцінку",
-     ivan.get_average_mark()
-   )
+     ivan.get_average_mark())
 
-result = cheater._FakeStudent__cheat()
-print(result)
+print(f"Студент {anton.get_full_name()}",
+     "має середню оцінку",
+     anton.get_average_mark())
 
+print(teacher.find_cheater_student())
+
+print(
+    f"У студента {teacher.find_cheater_student()} завищені оцінки"
+)
