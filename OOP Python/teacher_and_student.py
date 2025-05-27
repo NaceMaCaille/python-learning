@@ -36,22 +36,21 @@ class Student(Human):
         return max(self.marks)
 
 
-class Teacher:
-    def __init__(self,students):
+class Teacher(Human):
+    def __init__(self,name, surname, age, students):
+        super().__init__(name,surname,age)
         self.students = students
 
 
     def get_list_of_names_by_average_mark(self):
-        return (sorted(self.students,
+        return str(sorted(self.students,
                        key=lambda student: student.get_average_mark(),
                        reverse=True))
 
 
     def get_student_by_name(self, name):
-        for student in self.students:
-            if student.name == name:
-                return student
-        return None
+        name = name.strip().lower()
+        return [student for student in self.students if name in student.name.lower()]
 
 
     def remove_student_by_name(self, name):
@@ -70,21 +69,25 @@ class Teacher:
 
 
     def find_cheater_student(self):
+        cheaters = []
         for student in self.students:
-            avg_real = sum(student.marks) // len(student.marks)
-            avg_curent = student.get_average_mark()
-            if avg_curent != avg_real:
-                return f"{student.get_full_name()}"
-        return None
+            if isinstance(student, FakeStudent):
+                cheaters.append(student)
+                cheaters.append(student.marks)
+        if cheaters:
+            return ", ".join(str(s) for s in cheaters)
+        else:
+            return "Усі студенти честні"
+
 
 
 class FakeStudent(Student):
     def __init__(self, name, surname, age, marks):
         super().__init__(name, surname, age, marks)
 
-        self.__cheated_marks = self.cheat()
+        self.__cheated_marks = self.__cheat()
 
-    def cheat(self):
+    def __cheat(self):
         return [min(mark * 2, 10) for mark in self.marks]
 
 
@@ -104,29 +107,20 @@ ivan = Student("Іван", "Петренко", 24,[4, 8, 3, 2, 1])
 albert = Student("Альберт", "Мішустін", 25, [5, 10, 11, 3, 1])
 irina = Student("Ірина", "Шевченко", 21, [10, 1, 4, 1, 7])
 daria = Student("Дар'я", "Коваленко", 23, [1, 10, 1, 3, 6])
-oleg = Student("Олег", "Кравчук", 22, [10, 2, 1, 4, 3])
+oleg = Student("Антон", "Кравчук", 22, [10, 2, 1, 4, 3])
 
 anton = FakeStudent("Антон","Коваль", 22, [5, 2, 3, 4, 6])
+egor = FakeStudent("Єгор","Ющенко",21,[3, 4, 6, 1, 7])
 
 
+student_group = [ivan, albert, irina, daria, anton, oleg, egor]
 
-student_group = [ivan, albert, irina, daria, anton]
+teacher = Teacher("Тамара", "Петровна", 43, student_group)
 
-teacher = Teacher(student_group)
 
-print(anton.cheat())
+# print(teacher.get_list_of_names_by_average_mark())
+# print(anton)
 
-print(
-     f"Студент {ivan.get_full_name()}",
-     "має середню оцінку",
-     ivan.get_average_mark())
+results = teacher.find_cheater_student()
 
-print(f"Студент {anton.get_full_name()}",
-     "має середню оцінку",
-     anton.get_average_mark())
-
-print(teacher.find_cheater_student())
-
-print(
-    f"У студента {teacher.find_cheater_student()} завищені оцінки"
-)
+print(results)
