@@ -43,9 +43,10 @@ class Teacher(Human):
 
 
     def get_list_of_names_by_average_mark(self):
-        return str(sorted(self.students,
+        sort_students = (sorted(self.students,
                        key=lambda student: student.get_average_mark(),
                        reverse=True))
+        return ", ".join(str(student) for student in sort_students)
 
 
     def get_student_by_name(self, name):
@@ -118,9 +119,8 @@ student_group = [ivan, albert, irina, daria, anton, oleg, egor]
 teacher = Teacher("Тамара", "Петровна", 43, student_group)
 
 
-# print(teacher.get_list_of_names_by_average_mark())
-# print(anton)
+print(teacher.get_list_of_names_by_average_mark())
+print(anton)
 
 results = teacher.find_cheater_student()
 
-print(results)
