@@ -3,6 +3,7 @@ class Human:
         self.name = name
         self.age = age
         
+
     def __str__(self):
         return f"{self.name}, {self.age} років"
     
@@ -17,22 +18,40 @@ class Car:
     
     
     def set_owner(self, owner):
-        self.owner = owner
-        
-    def get_info(self):    
-        if self.owner.age >= 18:
-            return f"Бренд - {self.brand}, Модель - {self.model},Рік створення - {self.year_creating}, Номерний знак - {self.number_plate}\nВласник - {self.owner.name} {self.owner.age}"
+        if owner.age >= 18:
+            self.owner = owner
         else:
-            return "Власник неповнолітній"
-    
+            raise ValueError ('Помилка! Власник неповнолітній')
+            
+
+         
+    def get_info(self):
+        info_car = (
+            f"Бренд - {self.brand}, Модель - {self.model},"
+            f"Рік створення - {self.year_creating}, Номерний знак - {self.number_plate}"
+            )
+        if not self.owner == None:
+            info_car += f"\nІм'я - {self.owner.name}, Прізвище - {self.owner.age}"
+        else:
+            info_car += '\nПомилка! Власник неповнолітній'
+        return info_car 
+            
+            
+        
+            
     def __repr__(self):
         return self.get_info()
+    
+    
 
-name = input("І'мя власника - ")
-age = int(input("Рік народження - "))
-
-person = Human(name, age)
 car = Car('Bugati','Bolide',2020,'CB 0001 AA')
-car.set_owner(person)
+person = Human('Albert', 17)
 
-print(car)
+try:
+    car.set_owner(person)
+    print(car)
+except ValueError or AttributeError as e:
+    print(e)
+
+print(car.get_info())    
+    
