@@ -12,8 +12,8 @@ Reminder creation
 
 ## Встановлення та запуск
 
-git clone https://github.com/NaceMaCaille/python-learning/tree/main/Project
-зміна дерикторії - cd Project
+git clone https://github.com/NaceMaCaille/python-learning/tree/todo-improving/Project OOP
+зміна дерикторії - cd Project OOP
 запустити - .\main.py
 
 ## Приклад використання 
